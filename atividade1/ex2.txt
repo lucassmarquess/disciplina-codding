@@ -1,0 +1,5 @@
+| Relação                 |Classificação| Justificativa                                                                                                                               |
+| ----------------------- | ----------- |   ------------------------------------------------------------------------------------------------------------------------------------------- |
+|  Escola  >  SalaDeAula  |  Composição | A sala depende da escola para existir no sistema. Se a escola deixar de existir, suas salas também deixam de existir.                       |
+|  Escola  >  Professor   |  Associação | Escola e professor possuem existência independente. Um professor pode trabalhar em várias escolas e uma escola pode ter vários professores. |
+|  Aluno  >  Endereco     |  Agregação  | O endereço é criado junto ao aluno, mas pode continuar existindo mesmo após a remoção do aluno e ser utilizado em outro contexto.           |
