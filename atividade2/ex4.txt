@@ -1,0 +1,59 @@
+Veiculo — Contrato
+    Tipo: Associação.
+
+    Um contrato está relacionado a um veículo por meio do veiculo_id. O veículo pode existir mesmo quando não possui nenhum contrato ativo ou quando um contrato é excluído. Portanto, o ciclo de vida do veículo é independente do contrato.
+
+Cliente — Contrato
+    Tipo: Associação.
+
+    Um contrato possui um cliente_id para identificar o cliente responsável pela locação. O cliente continua existindo mesmo após o término ou exclusão do contrato, portanto as duas classes possuem ciclos de vida independentes.
+
+Contrato — Condutor
+    Tipo: Composição.
+
+    O condutor é criado para atuar dentro de um contrato de locação e não possui uma finalidade independente no sistema quando o contrato ao qual está associado é excluído. Por isso, quando um contrato é excluído, o condutor relacionado também é excluído.
+
+    No código, isso é demonstrado por:
+    __________________________________________
+    |                                         |
+    |condutor_id = contrato.condutor_id       |
+    |condutor = condutores.get(condutor_id)   |
+    |                                         |
+    |del contratos[id]                        |
+    |                                         |  
+    |if condutor:                             |  
+    |    del condutores[condutor_id]          |
+    |_________________________________________|  
+
+Veiculo — Manutencao                     
+    Tipo: Agregação.
+
+    Um veículo pode possuir vários registros de manutenção. Entretanto, os registros de manutenção representam informações próprias sobre os serviços realizados e são tratados como objetos separados no sistema. O veículo possui uma relação com essas manutenções, mas a relação não representa a mesma dependência forte encontrada entre contrato e condutor.
+
+Veiculo — Carro
+    Tipo: Herança.
+
+    Carro é uma especialização de Veiculo. Todo carro é um veículo, mas possui características próprias, como quantidade de portas e tipo de câmbio.
+
+Veiculo — Moto
+    Tipo: Herança.
+
+    Moto é uma especialização de Veiculo, acrescentando informações como cilindradas e tipo de partida.
+
+Veiculo — Caminhao
+    Tipo: Herança.
+
+    Caminhao é uma especialização de Veiculo, acrescentando informações como quantidade de carga e quantidade de eixos.
+
+Cliente — Fisica
+    Tipo: Herança.
+
+    Fisica é uma especialização de Cliente, representando clientes que possuem CPF.
+
+Cliente — Juridica
+
+    Tipo: Herança.
+
+    Juridica é uma especialização de Cliente, representando clientes que possuem CNPJ.
+
+    Observação: os relacionamentos de herança não são classificados como associação, agregação ou composição. Eles representam uma relação de generalização/especialização.

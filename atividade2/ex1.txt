@@ -1,0 +1,12 @@
+As classes identificadas no cenário são:
+
+- Veiculo
+- Carro
+- Moto
+- Caminhao
+- Cliente
+- Fisica
+- Juridica
+- Contrato
+- Condutor
+- Manutencao

@@ -1,0 +1,184 @@
+Veiculo
+    * Atributos:
+
+    - placa
+    - modelo
+    - ano
+    - valor_diaria
+
+    * Métodos:
+
+    - calcular_diaria()
+    - alterar_valor_diaria()
+
+    Representa as características comuns a todos os veículos disponíveis para locação.
+
+Carro
+    * Atributos:
+
+    -id
+    - quantidade_portas
+    - cambio
+    - placa
+    - modelo
+    - ano
+    - valor_diaria
+
+    Além dos atributos herdados de Veiculo.
+
+
+    -Métodos:
+
+    - contar_portas()
+    - mostrar_cambio()
+
+    Representa um carro e suas características específicas.
+
+Moto
+
+    * Atributos:
+
+    - id
+    - cilindradas
+    - partida
+    - placa
+    - modelo
+    - ano
+    - valor_diaria
+
+    Além dos atributos herdados de Veiculo.
+
+
+    * Métodos:
+
+    - mostrar_cilindradas()
+    - saber_partida()
+
+    Representa uma motocicleta e suas características específicas.
+
+Caminhao
+
+    * Atributos:
+
+    - id
+    - quantidade_carga
+    - quantidade_eixos
+    - placa
+    - modelo
+    - ano
+    - valor_diaria
+
+    Além dos atributos herdados de Veiculo.
+
+    * Métodos:
+
+    - contar_eixos()
+    - disponibilidade_carga()
+
+    Representa um caminhão e suas características específicas.
+
+Cliente
+
+    * Atributos:
+
+    - nome
+    - razao_social
+    - documento
+    - telefone
+
+    * Métodos:
+
+    - atualizar_telefone()
+    - atualizar_documento()
+
+    Representa as informações comuns dos clientes da empresa.
+
+Fisica
+
+    * Atributos:
+
+    - id
+    - nome
+    - documento
+    - telefone
+
+    Além dos atributos herdados de Cliente.
+
+    * Métodos:
+
+    - atualizar_telefone()
+    - validar_documentos()
+
+    Representa clientes que são pessoas físicas.
+
+Juridica
+
+    * Atributos:
+
+    - id
+    - razao_social
+    - documento
+    - telefone
+
+    Além dos atributos herdados de Cliente.
+
+    * Métodos:
+
+    - atualizar_telefone()
+    - validar_documentos()
+
+    Representa clientes que são pessoas jurídicas.
+
+Contrato
+
+    * Atributos:
+
+    - id
+    - data_inicio
+    - data_termino
+    - valor_total
+    - status
+    - cliente_id
+    - veiculo_id
+    - condutor_id
+
+    * Métodos:
+
+    - calcular_valor_total()
+    - finalizar()
+    - cancelar()
+
+    Representa o contrato de locação realizado entre um cliente e a empresa.
+
+Condutor
+
+    * Atributos:
+
+    - id
+    - nome
+    - cnh
+    - contrato_id
+
+    * Métodos:
+
+    - atualizar_cnh()
+    - atualizar_nome()
+
+    Representa o responsável por conduzir o veículo durante uma locação.
+
+Manutencao
+
+    * Atributos:
+
+    - id
+    - veiculo_id
+    - data
+    - tipo_servico
+    - custo
+
+    * Métodos:
+
+    - alterar_custo()
+    - alterar_servico()
+
+    Representa um registro de manutenção realizado em determinado veículo.

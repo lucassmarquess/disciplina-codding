@@ -1,4 +1,4 @@
-from ex1 import Escola, SalaDeAula, Professor, Aluno, Endereco
+from main import Escola, SalaDeAula, Professor, Aluno, Endereco
 
 escolas = {}
 professores = {}

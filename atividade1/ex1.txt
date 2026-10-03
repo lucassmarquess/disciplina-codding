@@ -1,0 +1,14 @@
+-Escola:
+    A entidade Escola representa uma instituição de ensino. Seus principais atributos podem ser o id, que identifica a escola, e o nome, que armazena sua identificação. Como comportamentos, a escola pode possuir métodos para adicionar e remover salas de aula e para vincular ou remover professores.
+
+-Sala de Aula:
+    A entidade Sala de Aula representa um espaço físico utilizado para as atividades escolares. Seus atributos podem ser o id, o nome ou identificação da sala e a capacidade, que indica a quantidade máxima de alunos. Entre seus métodos, pode existir o comportamento de alterar a capacidade da sala.
+
+-Professor:
+    A entidade Professor representa um profissional responsável pelo ensino. Seus atributos podem ser o id, nome e disciplina que leciona. Como métodos, o professor pode vincular-se a uma escola e desvincular-se de uma escola, permitindo representar sua associação com diferentes instituições.
+
+-Aluno:
+    A entidade Aluno representa um estudante da instituição. Seus atributos podem ser o id, nome, matrícula e endereço. Entre seus métodos, pode possuir o comportamento de alterar seu endereço, permitindo atualizar suas informações cadastrais.
+
+-Endereço:
+    A entidade Endereço representa o local de residência de um aluno. Seus atributos podem ser o id, rua, número e cidade. Como comportamento, pode possuir um método para alterar os dados do endereço, permitindo atualizar a rua, o número e a cidade.

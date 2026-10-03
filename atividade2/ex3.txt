@@ -1,0 +1,18 @@
+Sim. Existem duas hierarquias de herança no sistema.
+
+A primeira é formada pela classe Veiculo, que funciona como superclasse de:
+
+- Carro
+- Moto
+- Caminhao
+
+A classe Veiculo possui os atributos e comportamentos comuns aos diferentes tipos de veículos, como placa, modelo, ano e valor da diária. As subclasses acrescentam características específicas de cada tipo.
+
+A segunda hierarquia é formada pela classe Cliente, que funciona como superclasse de:
+
+- Fisica
+- Juridica
+
+A classe Cliente concentra informações comuns aos clientes, enquanto Fisica e Juridica representam os dois tipos de clientes existentes no sistema.
+
+Essa utilização de herança evita a repetição de atributos e métodos que são comuns às classes especializadas.
