@@ -1,1 +1,1 @@
-from .pessoas import listar_pessoas
+from .pessoas import listar_pessoas, cadastrar
