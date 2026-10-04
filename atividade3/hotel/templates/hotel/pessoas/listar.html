@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Pessoas</title>
+</head>
+<body>
+
+    <h1>Lista de Pessoas</h1>
+
+    {% for pessoa in pessoas %}
+        <p>
+            {{ pessoa.nome }} -
+            {{ pessoa.cpf }} -
+            {{ pessoa.contato }}
+        </p>
+    {% empty %}
+        <p>Nenhuma pessoa cadastrada.</p>   
+    {% endfor %}
+
+</body>
+</html>

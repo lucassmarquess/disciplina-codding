@@ -1,0 +1,1 @@
+from .pessoas import listar_pessoas
