@@ -1,0 +1,20 @@
+# venv
+.venv/
+venv/
+env/
+
+# php
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# acho que nao preciso escrever o que seria isso ne
+db.sqlite3
+db.sqlite3-journal
+
+# o sistema operaxional akkaka
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/
