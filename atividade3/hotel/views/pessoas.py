@@ -36,3 +36,11 @@ def editar_pessoa(request, id):
 
         return redirect("listar_pessoas")
     return render(request, "hotel/pessoas/editar.html", {"pessoa": pessoa})
+
+def excluir_pessoa(request, id):
+    pessoa = get_object_or_404(Pessoa, id=id)
+    
+    pessoa.ativo = False
+    pessoa.save()
+
+    return redirect("listar_pessoas")

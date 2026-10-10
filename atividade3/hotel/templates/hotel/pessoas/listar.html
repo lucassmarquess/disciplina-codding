@@ -15,6 +15,12 @@
             {{ pessoa.contato }}
             
             <a href="{% url "editar_pessoa" pessoa.id %}">Editar</a>
+            <form method="POST" action="{% url 'excluir_pessoa' pessoa.id %}" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja inativar esta pessoa?');">
+
+                {% csrf_token %}
+
+                <button type="submit">Excluir</button>
+            </form>
         </p>
     {% empty %}
         <p>Nenhuma pessoa cadastrada.</p>   
