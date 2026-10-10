@@ -13,6 +13,8 @@
             {{ pessoa.nome }} -
             {{ pessoa.cpf }} -
             {{ pessoa.contato }}
+            
+            <a href="{% url "editar_pessoa" pessoa.id %}">Editar</a>
         </p>
     {% empty %}
         <p>Nenhuma pessoa cadastrada.</p>   

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar</title>
+</head>
+<body>
+    <h1>Editar</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" value="{{ pessoa.nome}}"><br>
+
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" value="{{ pessoa.cpf}}"><br>
+
+        <label for="contato">Contato:</label>
+        <input type="text" id="contato" name="contato" value="{{ pessoa.contato}}"><br>
+        <button type="submit">Salvar</button>
+        <a href="{% url 'listar_pessoas' %}">Voltar</a>
+    </form>
+</body>
+</html>
