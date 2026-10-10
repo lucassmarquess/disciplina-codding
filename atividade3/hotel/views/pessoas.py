@@ -4,7 +4,7 @@ from hotel.models import Pessoa
 # Crie suas views aqui.
 
 def listar_pessoas(request):
-    pessoas = Pessoa.objects.all()
+    pessoas = Pessoa.objects.filter(ativo=True)
 
     return render(request, "hotel/pessoas/listar.html", {'pessoas': pessoas})
 
