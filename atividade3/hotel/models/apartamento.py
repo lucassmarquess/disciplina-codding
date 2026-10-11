@@ -1,5 +1,4 @@
 from django.db import models
-#id, numeracao, preco_diaria, tipo, staus, ativo
 
 class Apartamento(models.Model):
     numeracao = models.CharField(max_length=10)
