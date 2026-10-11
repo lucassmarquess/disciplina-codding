@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar</title>
+</head>
+<body>
+    <h1>Editor de Apartamento</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="numeracao">Numeração:</label><br>
+        <input type="text" name="numeracao" id="numeracao" value="{{apartamento.numeracao}}"><br>
+
+        <label for="preco_diaria">Preco da Diaria:</label><br>
+        <input type="text" name="preco_diaria" id="preco_diaria" value="{{apartamento.preco_diaria}}"><br>
+        
+        <label for="tipo">Tipo:</label>
+        <select name="tipo" id="tipo">
+            <option value="Padrão" {% if apartamento.tipo == 'Padrão' %}selected{% endif %}>Padrão</option>
+            <option value="Luxo" {% if apartamento.tipo == 'Luxo' %}selected{% endif %}>Luxo</option>
+            <option value="Master" {% if apartamento.tipo == 'Master' %}selected{% endif %}>Master</option>
+        </select><br>
+        <button type="submit">Salvar</button>
+        <a href="{% url 'listar_apartamentos' %}">Voltar</a>
+    </form>
+</body>
+</html>

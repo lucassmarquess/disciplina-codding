@@ -15,6 +15,7 @@
             {{ apartamento.preco_diaria }} -
             {{ apartamento.tipo }} -
             {{ apartamento.status }} 
+            <a href="{% url 'editar_apartamento' apartamento.id %}">Editar</a>
         </p>
     {% empty %}
         <p>Nenhum apartamento cadastrado</p>
