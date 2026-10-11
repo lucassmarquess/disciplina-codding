@@ -1,1 +1,1 @@
-from .pessoas import listar_pessoas, cadastrar
+from .pessoas import listar_pessoas, cadastrar_pessoa, editar_pessoa, excluir_pessoa
