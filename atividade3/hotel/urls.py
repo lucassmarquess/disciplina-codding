@@ -1,6 +1,6 @@
 from django.urls import path
 from hotel.views.pessoas import listar_pessoas, cadastrar_pessoa, editar_pessoa, excluir_pessoa
-from hotel.views.apartamentos import listar_apartamentos
+from hotel.views.apartamentos import listar_apartamentos, cadastrar_apartamento
 
 urlpatterns = [
     #pessoas
@@ -10,4 +10,5 @@ urlpatterns = [
         path('pessoas/<int:id>/excluir', excluir_pessoa, name='excluir_pessoa'),
     #apartamentos
         path('apartamentos/', listar_apartamentos, name='listar_apartamentos'),
+        path('apartamentos/cadastrar', cadastrar_apartamento, name='cadastrar_apartamento'),
     ]

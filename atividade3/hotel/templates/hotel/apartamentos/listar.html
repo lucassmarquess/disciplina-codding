@@ -7,13 +7,15 @@
 </head>
 <body>
     <h1>Lista de Apartamentos</h1>
-
+    <a href="{% url 'cadastrar_apartamento' %}">Cadastrar</a>
     {% for apartamento in apartamentos %}
-        {{ apartamento.id }} -
-        {{ apartamento.numeracao }} -
-        {{ apartamento.preco_diaria }} -
-        {{ apartamento.tipo }} -
-        {{ apartamento.status }} 
+        <p>
+            {{ apartamento.id }} -
+            {{ apartamento.numeracao }} -
+            {{ apartamento.preco_diaria }} -
+            {{ apartamento.tipo }} -
+            {{ apartamento.status }} 
+        </p>
     {% empty %}
         <p>Nenhum apartamento cadastrado</p>
     {% endfor %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    <h1>Cadastro de Apartamento</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="numeracao">Numeração:</label><br>
+        <input type="text" name="numeracao" id="numeracao"><br>
+
+        <label for="preco_diaria">Preco da Diaria:</label><br>
+        <input type="number" name="preco_diaria" id="preco_diaria"><br>
+        
+        <label for="tipo">Tipo:</label>
+        <select name="tipo" id="tipo">
+            <option value="Padrão">Padrão</option>
+            <option value="Luxo">Luxo</option>
+            <option value="Master">Master</option>
+        </select><br>
+        <button type="submit">Cadastrar</button>
+        <a href="{% url 'listar_apartamentos' %}">Voltar</a>
+    </form>
+</body>
+</html>
