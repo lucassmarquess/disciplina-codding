@@ -19,6 +19,7 @@ def cadastrar_pessoa(request):
             cpf = cpf,
             contato = contato
         )
+        
         return redirect("listar_pessoas")
     return render(request, "hotel/pessoas/cadastrar.html")
 

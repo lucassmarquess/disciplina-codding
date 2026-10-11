@@ -16,6 +16,10 @@
             {{ apartamento.tipo }} -
             {{ apartamento.status }} 
             <a href="{% url 'editar_apartamento' apartamento.id %}">Editar</a>
+            <form method="POST" action="{% url 'excluir_apartamento' apartamento.id %}" onsubmit="return confirm('Tem certeza que deseja inativar esse apartamento?')" >
+                {% csrf_token %}
+                <button type="submit">Excluir</button>
+            </form>
         </p>
     {% empty %}
         <p>Nenhum apartamento cadastrado</p>

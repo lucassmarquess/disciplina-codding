@@ -17,6 +17,7 @@ def cadastrar_apartamento(request):
             preco_diaria = preco_diaria,
             tipo = tipo
         )
+        
         return redirect("listar_apartamentos")
     return render(request, "hotel/apartamentos/cadastrar.html")
 
@@ -32,5 +33,15 @@ def editar_apartamento(request, id):
         apartamento.preco_diaria = preco_diaria
         apartamento.tipo = tipo
         apartamento.save()
+
         return redirect("listar_apartamentos")
     return render(request, "hotel/apartamentos/editar.html", {'apartamento': apartamento})
+
+def excluir_apartamento(request, id):
+    apartamento = get_object_or_404(Apartamento, id=id)
+    
+    apartamento.ativo = False
+    apartamento.save()
+
+    return redirect("listar_apartamentos")
+
