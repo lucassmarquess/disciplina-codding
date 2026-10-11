@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartamentos</title>
+</head>
+<body>
+    <h1>Lista de Apartamentos</h1>
+
+    {% for apartamento in apartamentos %}
+        {{ apartamento.id }} -
+        {{ apartamento.numeracao }} -
+        {{ apartamento.preco_diaria }} -
+        {{ apartamento.tipo }} -
+        {{ apartamento.status }} 
+    {% empty %}
+        <p>Nenhum apartamento cadastrado</p>
+    {% endfor %}
+</body>
+</html>

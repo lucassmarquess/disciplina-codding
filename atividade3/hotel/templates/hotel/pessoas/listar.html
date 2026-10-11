@@ -7,9 +7,10 @@
 </head>
 <body>
     <h1>Lista de Pessoas</h1>
-
+    <a href="{% url 'cadastrar_pessoa' %}">Cadastrar</a>
     {% for pessoa in pessoas %}
         <p>
+            {{ pessoa.id }} -
             {{ pessoa.nome }} -
             {{ pessoa.cpf }} -
             {{ pessoa.contato }}
