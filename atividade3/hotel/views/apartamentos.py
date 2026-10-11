@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from hotel.models import Apartamento
 
 def listar_apartamentos(request):
-    apartamentos = Apartamento.objects.filter(ativo=True)
+    apartamentos = Apartamento.objects.all()
 
     return render(request, "hotel/apartamentos/listar.html", {"apartamentos": apartamentos})
 
@@ -44,4 +44,3 @@ def excluir_apartamento(request, id):
     apartamento.save()
 
     return redirect("listar_apartamentos")
-

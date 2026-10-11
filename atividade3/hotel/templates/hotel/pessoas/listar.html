@@ -13,7 +13,8 @@
             {{ pessoa.id }} -
             {{ pessoa.nome }} -
             {{ pessoa.cpf }} -
-            {{ pessoa.contato }}
+            {{ pessoa.contato }} -
+            {{ pessoa.ativo }}
             
             <a href="{% url "editar_pessoa" pessoa.id %}">Editar</a>
             <form method="POST" action="{% url 'excluir_pessoa' pessoa.id %}" onsubmit="return confirm('Tem certeza que deseja inativar esta pessoa?');">

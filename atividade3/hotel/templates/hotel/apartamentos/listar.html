@@ -14,7 +14,8 @@
             {{ apartamento.numeracao }} -
             {{ apartamento.preco_diaria }} -
             {{ apartamento.tipo }} -
-            {{ apartamento.status }} 
+            {{ apartamento.status }} -
+            {{ apartamento.ativo }} 
             <a href="{% url 'editar_apartamento' apartamento.id %}">Editar</a>
             <form method="POST" action="{% url 'excluir_apartamento' apartamento.id %}" onsubmit="return confirm('Tem certeza que deseja inativar esse apartamento?')" >
                 {% csrf_token %}
