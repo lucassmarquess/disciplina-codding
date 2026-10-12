@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Hospedagem</title>
+</head>
+<body>
+    <h1>Editar Hospedagem</h1>
+
+    {% if erro %}
+        <p>{{ erro }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="pessoa">Pessoa:</label>
+        <select name="pessoa" id="pessoa" required>
+            {% for pessoa in pessoas %}
+                <option value="{{ pessoa.id }}"
+                    {% if pessoa.id == hospedagem.pessoa_id %}selected{% endif %}>
+                    {{ pessoa.nome }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="apartamento">Apartamento:</label>
+        <select name="apartamento" id="apartamento" required>
+            {% for apartamento in apartamentos %}
+                <option value="{{ apartamento.id }}"
+                    {% if apartamento.id == hospedagem.apartamento_id %}selected{% endif %}>
+                    {{ apartamento.numeracao }} - {{ apartamento.tipo }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <p>Data de início: {{ hospedagem.data_inicio|date:"d/m/Y" }}</p>
+
+        <button type="submit">Salvar alterações</button>
+        <a href="{% url 'listar_hospedagens' %}">Cancelar</a>
+    </form>
+</body>
+</html>

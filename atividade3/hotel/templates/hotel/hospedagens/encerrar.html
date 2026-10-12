@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Encerramento</title>
+</head>
+<body>
+    <h1>Confirmar encerramento da hospedagem</h1>
+
+    <p>
+        Tem certeza de que deseja encerrar esta hospedagem?
+    </p>
+
+    <h2>Dados da hospedagem</h2>
+
+    <p>
+        <strong>Hóspede:</strong>
+        {{ hospedagem.pessoa.nome }}
+    </p>
+
+    <p>
+        <strong>Apartamento:</strong>
+        {{ hospedagem.apartamento.numeracao }}
+    </p>
+
+    <p>
+        <strong>Tipo:</strong>
+        {{ hospedagem.apartamento.tipo }}
+    </p>
+
+    <p>
+        <strong>Data de início:</strong>
+        {{ hospedagem.data_inicio|date:"d/m/Y" }}
+    </p>
+
+    <p>
+        <strong>Data de encerramento:</strong>
+        {{ data_encerramento|date:"d/m/Y" }}
+    </p>
+
+    <hr>
+
+    <h2>Resumo do pagamento</h2>
+
+    <p>
+        <strong>Valor da diária:</strong>
+        R$ {{ hospedagem.apartamento.preco_diaria|floatformat:2 }}
+    </p>
+
+    <p>
+        <strong>Quantidade de diárias:</strong>
+        {{ diarias }}
+    </p>
+
+    <p>
+        <strong>Total a pagar:</strong>
+        R$ {{ total|floatformat:2 }}
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit">
+            Confirmar encerramento
+        </button>
+
+        <a href="{% url 'listar_hospedagens' %}">
+            Cancelar
+        </a>
+    </form>
+</body>
+</html>

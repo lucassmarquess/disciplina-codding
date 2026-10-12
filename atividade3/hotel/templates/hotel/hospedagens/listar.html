@@ -7,15 +7,24 @@
 </head>
 <body>
     <h1>Lista de Hospedagens</h1>
-    {% for hospegadem in hospegadens %}
+    <a href="{% url 'cadastrar_hospedagem' %}">Cadastrar</a>
+    {% for hospedagem in hospedagens %}
         <p>
-            {{ hospegadem.id }} -
-            {{ hospegadem.numeracao }} -
-            {{ hospegadem.pessoa_id }} -
-            {{ hospegadem.apartamento_id }} -
-            {{ hospegadem.data_inicio }} -
-            {{ hospegadem.data_final }} -
-            {{ hospegadem.ativo }}
+            {{ hospedagem.id }} -
+            {{ hospedagem.numeracao }} -
+            {{ hospedagem.pessoa_id }} -
+            {{ hospedagem.apartamento_id }} -
+            {{ hospedagem.data_inicio }} -
+            {{ hospedagem.data_final }} -
+            {{ hospedagem.ativo }}
+            <a href="{% url 'editar_hospedagem' hospedagem.id %}">Editar</a>
+            {% if hospedagem.ativo %}
+                <a href="{% url 'encerrar_hospedagem' hospedagem.id %}">
+                    Encerrar hospedagem
+                </a>
+            {% else %}
+                <span>Hospedagem encerrada</span>
+            {% endif %}
         </p>
     {% empty %}
         <p>Nenhuma hospegadem cadastrada</p>

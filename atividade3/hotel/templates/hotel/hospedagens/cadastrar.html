@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Hospedagem</title>
+</head>
+<body>
+    <h1>Cadastro de Hospedagem</h1>
+
+    {% if erro %}
+        <p style="color: red;">{{ erro }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="apartamento">Apartamento:</label>
+        <select name="apartamento" id="apartamento" required>
+            <option value="">Selecione um apartamento</option>
+            {% for apartamento in apartamentos %}
+                <option value="{{ apartamento.id }}"
+                        data-tipo="{{ apartamento.tipo }}">
+                    {{ apartamento.numeracao }} - {{ apartamento.tipo }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="quantidade_pessoas">Quantidade de pessoas:</label>
+        <select id="quantidade_pessoas" required disabled>
+            <option value="">Selecione um apartamento primeiro</option>
+        </select>
+
+        <br><br>
+
+        <div id="pessoas_container" style="display: none;">
+            <label>Pessoas da hospedagem:</label>
+            <div id="lista_pessoas"></div>
+        </div>
+
+        <br>
+        <button type="submit">Cadastrar hospedagem</button>
+        <a href="{% url 'listar_hospedagens' %}">Voltar</a>
+    </form>
+
+    <script>
+        const apartamento = document.getElementById("apartamento");
+        const quantidade = document.getElementById("quantidade_pessoas");
+        const pessoasContainer = document.getElementById("pessoas_container");
+        const listaPessoas = document.getElementById("lista_pessoas");
+
+        const pessoasDisponiveis = [
+            {% for pessoa in pessoas %}
+                {
+                    id: "{{ pessoa.id }}",
+                    nome: "{{ pessoa.nome|escapejs }}"
+                },
+            {% endfor %}
+        ];
+
+        // Define o limite de pessoas conforme o tipo do apartamento
+        function atualizarQuantidade() {
+            const opcao = apartamento.options[apartamento.selectedIndex];
+
+            quantidade.innerHTML = "";
+            listaPessoas.innerHTML = "";
+            pessoasContainer.style.display = "none";
+
+            if (!opcao || !opcao.value) {
+                quantidade.disabled = true;
+                quantidade.add(new Option("Selecione um apartamento primeiro", ""));
+                return;
+            }
+
+            const tipo = (opcao.dataset.tipo || "")
+                .trim()
+                .toLowerCase();
+
+            const limites = {
+                "padrão": 2,
+                "padrao": 2,
+                "luxo": 3,
+                "master": 4
+            };
+
+            const limite = limites[tipo] || 0;
+
+            quantidade.disabled = false;
+            quantidade.add(new Option("Selecione", ""));
+
+            for (let i = 1; i <= limite; i++) {
+                quantidade.add(
+                    new Option(
+                        i + (i === 1 ? " pessoa" : " pessoas"),
+                        i
+                    )
+                );
+            }
+
+            if (limite === 0) {
+                quantidade.disabled = true;
+                quantidade.innerHTML = "";
+                quantidade.add(new Option("Tipo não configurado", ""));
+            }
+        }
+
+        // Atualiza as opções para impedir a repetição de pessoas
+        function atualizarOpcoesPessoas() {
+            const selects = listaPessoas.querySelectorAll(
+                'select[name="pessoas"]'
+            );
+
+            const selecionadas = Array.from(selects)
+                .map(select => select.value)
+                .filter(value => value !== "");
+
+            selects.forEach(function (select) {
+                Array.from(select.options).forEach(function (option) {
+                    if (option.value === "") return;
+
+                    option.disabled =
+                        selecionadas.includes(option.value) &&
+                        option.value !== select.value;
+                });
+            });
+        }
+
+        // Cria um campo de seleção para cada pessoa
+        function atualizarPessoas() {
+            const total = Number(quantidade.value);
+
+            listaPessoas.innerHTML = "";
+
+            if (!total) {
+                pessoasContainer.style.display = "none";
+                return;
+            }
+
+            pessoasContainer.style.display = "block";
+
+            for (let i = 1; i <= total; i++) {
+                const label = document.createElement("label");
+                label.textContent = "Pessoa " + i + ": ";
+
+                const select = document.createElement("select");
+                select.name = "pessoas";
+                select.required = true;
+
+                select.add(new Option("Selecione uma pessoa", ""));
+
+                pessoasDisponiveis.forEach(function (pessoa) {
+                    select.add(new Option(pessoa.nome, pessoa.id));
+                });
+
+                select.addEventListener(
+                    "change",
+                    atualizarOpcoesPessoas
+                );
+
+                listaPessoas.appendChild(label);
+                listaPessoas.appendChild(select);
+                listaPessoas.appendChild(document.createElement("br"));
+            }
+        }
+
+        apartamento.addEventListener("change", atualizarQuantidade);
+        quantidade.addEventListener("change", atualizarPessoas);
+
+        atualizarQuantidade();
+    </script>
+</body>
+</html>
