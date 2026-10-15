@@ -1,174 +1,218 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Hospedagem</title>
-</head>
-<body>
-    <h1>Cadastro de Hospedagem</h1>
+
+{% extends 'base.html' %}
+
+{% block title %}Cadastrar Hospedagem | HotelSystem{% endblock %}
+
+{% block page_heading %}
+<h1>Hospedagens</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div>
+    <h2>Cadastrar Hospedagem</h2>
+    <p class="page-description">
+      Preencha os dados para cadastrar uma hospedagem.
+    </p>
+  </div>
+</div>
+
+<div class="content-card form-card">
+  <div class="card-header">
+    <div>
+      <h3>Dados da hospedagem</h3>
+      <p>Selecione o apartamento e as pessoas da hospedagem.</p>
+    </div>
+  </div>
+
+  <form method="POST" class="person-form">
+    {% csrf_token %}
 
     {% if erro %}
-        <p style="color: red;">{{ erro }}</p>
+      <p style="color: red; margin-bottom: 20px;">{{ erro }}</p>
     {% endif %}
 
-    <form method="POST">
-        {% csrf_token %}
+    <div class="form-group">
+      <label for="apartamento">Apartamento:</label>
 
-        <label for="apartamento">Apartamento:</label>
-        <select name="apartamento" id="apartamento" required>
-            <option value="">Selecione um apartamento</option>
-            {% for apartamento in apartamentos %}
-                <option value="{{ apartamento.id }}"
-                        data-tipo="{{ apartamento.tipo }}">
-                    {{ apartamento.numeracao }} - {{ apartamento.tipo }}
-                </option>
-            {% endfor %}
-        </select>
+      <select name="apartamento" id="apartamento" required>
+        <option value="">Selecione um apartamento</option>
 
-        <br><br>
+        {% for apartamento in apartamentos %}
+          <option
+            value="{{ apartamento.id }}"
+            data-tipo="{{ apartamento.tipo }}"
+          >
+            {{ apartamento.numeracao }} - {{ apartamento.tipo }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
 
-        <label for="quantidade_pessoas">Quantidade de pessoas:</label>
-        <select id="quantidade_pessoas" required disabled>
-            <option value="">Selecione um apartamento primeiro</option>
-        </select>
+    <div class="form-group">
+      <label for="quantidade_pessoas">Quantidade de pessoas:</label>
 
-        <br><br>
+      <select id="quantidade_pessoas" required disabled>
+        <option value="">Selecione um apartamento primeiro</option>
+      </select>
+    </div>
 
-        <div id="pessoas_container" style="display: none;">
-            <label>Pessoas da hospedagem:</label>
-            <div id="lista_pessoas"></div>
-        </div>
+    <div
+      id="pessoas_container"
+      class="form-group"
+      style="display: none;"
+    >
+      <label>Pessoas da hospedagem:</label>
+      <div id="lista_pessoas"></div>
+    </div>
 
-        <br>
-        <button type="submit">Cadastrar hospedagem</button>
-        <a href="{% url 'listar_hospedagens' %}">Voltar</a>
-    </form>
+    <div class="form-actions">
+      <a
+        href="{% url 'listar_hospedagens' %}"
+        class="btn btn-secondary"
+      >
+        Voltar
+      </a>
 
-    <script>
-        const apartamento = document.getElementById("apartamento");
-        const quantidade = document.getElementById("quantidade_pessoas");
-        const pessoasContainer = document.getElementById("pessoas_container");
-        const listaPessoas = document.getElementById("lista_pessoas");
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i>
+        Cadastrar hospedagem
+      </button>
+    </div>
+  </form>
+</div>
 
-        const pessoasDisponiveis = [
-            {% for pessoa in pessoas %}
-                {
-                    id: "{{ pessoa.id }}",
-                    nome: "{{ pessoa.nome|escapejs }}"
-                },
-            {% endfor %}
-        ];
+<script>
+  const apartamento = document.getElementById("apartamento");
+  const quantidade = document.getElementById("quantidade_pessoas");
+  const pessoasContainer = document.getElementById("pessoas_container");
+  const listaPessoas = document.getElementById("lista_pessoas");
 
-        // Define o limite de pessoas conforme o tipo do apartamento
-        function atualizarQuantidade() {
-            const opcao = apartamento.options[apartamento.selectedIndex];
+  
 
-            quantidade.innerHTML = "";
-            listaPessoas.innerHTML = "";
-            pessoasContainer.style.display = "none";
+const pessoasDisponiveis = [
+  {% for pessoa in pessoas %}
+    {
+      id: "{{ pessoa.id }}",
+      nome: "{{ pessoa.nome|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+  {% endfor %}
+];
 
-            if (!opcao || !opcao.value) {
-                quantidade.disabled = true;
-                quantidade.add(new Option("Selecione um apartamento primeiro", ""));
-                return;
-            }
 
-            const tipo = (opcao.dataset.tipo || "")
-                .trim()
-                .toLowerCase();
 
-            const limites = {
-                "padrão": 2,
-                "padrao": 2,
-                "luxo": 3,
-                "master": 4
-            };
+  // Define o limite de pessoas conforme o tipo do apartamento.
+  function atualizarQuantidade() {
+    const opcao = apartamento.options[apartamento.selectedIndex];
 
-            const limite = limites[tipo] || 0;
+    quantidade.innerHTML = "";
+    listaPessoas.innerHTML = "";
+    pessoasContainer.style.display = "none";
 
-            quantidade.disabled = false;
-            quantidade.add(new Option("Selecione", ""));
+    if (!opcao || !opcao.value) {
+      quantidade.disabled = true;
+      quantidade.add(
+        new Option("Selecione um apartamento primeiro", "")
+      );
+      return;
+    }
 
-            for (let i = 1; i <= limite; i++) {
-                quantidade.add(
-                    new Option(
-                        i + (i === 1 ? " pessoa" : " pessoas"),
-                        i
-                    )
-                );
-            }
+    const tipo = (opcao.dataset.tipo || "")
+      .trim()
+      .toLowerCase();
 
-            if (limite === 0) {
-                quantidade.disabled = true;
-                quantidade.innerHTML = "";
-                quantidade.add(new Option("Tipo não configurado", ""));
-            }
-        }
+    const limites = {
+      "padrão": 2,
+      "padrao": 2,
+      "luxo": 3,
+      "master": 4
+    };
 
-        // Atualiza as opções para impedir a repetição de pessoas
-        function atualizarOpcoesPessoas() {
-            const selects = listaPessoas.querySelectorAll(
-                'select[name="pessoas"]'
-            );
+    const limite = limites[tipo] || 0;
 
-            const selecionadas = Array.from(selects)
-                .map(select => select.value)
-                .filter(value => value !== "");
+    quantidade.disabled = false;
+    quantidade.add(new Option("Selecione", ""));
 
-            selects.forEach(function (select) {
-                Array.from(select.options).forEach(function (option) {
-                    if (option.value === "") return;
+    for (let i = 1; i <= limite; i++) {
+      quantidade.add(
+        new Option(
+          i + (i === 1 ? " pessoa" : " pessoas"),
+          i
+        )
+      );
+    }
 
-                    option.disabled =
-                        selecionadas.includes(option.value) &&
-                        option.value !== select.value;
-                });
-            });
-        }
+    if (limite === 0) {
+      quantidade.disabled = true;
+      quantidade.innerHTML = "";
+      quantidade.add(new Option("Tipo não configurado", ""));
+    }
+  }
 
-        // Cria um campo de seleção para cada pessoa
-        function atualizarPessoas() {
-            const total = Number(quantidade.value);
+  // Impede a seleção repetida da mesma pessoa.
+  function atualizarOpcoesPessoas() {
+    const selects = listaPessoas.querySelectorAll(
+      'select[name="pessoas"]'
+    );
 
-            listaPessoas.innerHTML = "";
+    const selecionadas = Array.from(selects)
+      .map(select => select.value)
+      .filter(value => value !== "");
 
-            if (!total) {
-                pessoasContainer.style.display = "none";
-                return;
-            }
+    selects.forEach(function (select) {
+      Array.from(select.options).forEach(function (option) {
+        if (option.value === "") return;
 
-            pessoasContainer.style.display = "block";
+        option.disabled =
+          selecionadas.includes(option.value) &&
+          option.value !== select.value;
+      });
+    });
+  }
 
-            for (let i = 1; i <= total; i++) {
-                const label = document.createElement("label");
-                label.textContent = "Pessoa " + i + ": ";
+  // Cria um campo de seleção para cada pessoa.
+  function atualizarPessoas() {
+    const total = Number(quantidade.value);
 
-                const select = document.createElement("select");
-                select.name = "pessoas";
-                select.required = true;
+    listaPessoas.innerHTML = "";
 
-                select.add(new Option("Selecione uma pessoa", ""));
+    if (!total) {
+      pessoasContainer.style.display = "none";
+      return;
+    }
 
-                pessoasDisponiveis.forEach(function (pessoa) {
-                    select.add(new Option(pessoa.nome, pessoa.id));
-                });
+    pessoasContainer.style.display = "block";
 
-                select.addEventListener(
-                    "change",
-                    atualizarOpcoesPessoas
-                );
+    for (let i = 1; i <= total; i++) {
+      const label = document.createElement("label");
+      label.textContent = "Pessoa " + i + ": ";
 
-                listaPessoas.appendChild(label);
-                listaPessoas.appendChild(select);
-                listaPessoas.appendChild(document.createElement("br"));
-            }
-        }
+      const select = document.createElement("select");
+      select.name = "pessoas";
+      select.required = true;
 
-        apartamento.addEventListener("change", atualizarQuantidade);
-        quantidade.addEventListener("change", atualizarPessoas);
+      select.add(new Option("Selecione uma pessoa", ""));
 
-        atualizarQuantidade();
-    </script>
-</body>
-</html>
+      pessoasDisponiveis.forEach(function (pessoa) {
+        select.add(new Option(pessoa.nome, pessoa.id));
+      });
+
+      select.addEventListener(
+        "change",
+        atualizarOpcoesPessoas
+      );
+
+      listaPessoas.appendChild(label);
+      listaPessoas.appendChild(select);
+      listaPessoas.appendChild(document.createElement("br"));
+    }
+  }
+
+  apartamento.addEventListener("change", atualizarQuantidade);
+  quantidade.addEventListener("change", atualizarPessoas);
+
+  atualizarQuantidade();
+</script>
+
+{% endblock %}

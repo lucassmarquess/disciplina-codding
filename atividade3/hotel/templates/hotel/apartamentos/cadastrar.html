@@ -1,28 +1,69 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-</head>
-<body>
-    <h1>Cadastro de Apartamento</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="numeracao">Numeração:</label><br>
-        <input type="text" name="numeracao" id="numeracao"><br>
+{% extends 'base.html' %}
 
-        <label for="preco_diaria">Preco da Diaria:</label><br>
-        <input type="text" name="preco_diaria" id="preco_diaria"><br>
-        
-        <label for="tipo">Tipo:</label>
-        <select name="tipo" id="tipo">
-            <option value="Padrão">Padrão</option>
-            <option value="Luxo">Luxo</option>
-            <option value="Master">Master</option>
-        </select><br>
-        <button type="submit">Cadastrar</button>
-        <a href="{% url 'listar_apartamentos' %}">Voltar</a>
+{% block title %}Cadastrar Apartamento{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2>Cadastro de Apartamento</h2>
+        <p class="page-description">
+            Preencha os dados para cadastrar um novo apartamento.
+        </p>
+    </div>
+</div>
+
+<div class="content-card form-card">
+    <div class="card-header">
+        <h3>Dados do apartamento</h3>
+        <p>Informe a numeração, a diária e o tipo do apartamento.</p>
+    </div>
+
+    <form method="POST" class="person-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="numeracao">Numeração:</label>
+            <input
+                type="text"
+                name="numeracao"
+                id="numeracao"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="preco_diaria">Preço da diária (R$):</label>
+            <input
+                type="number"
+                name="preco_diaria"
+                id="preco_diaria"
+                step="0.01"
+                min="0"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo" required>
+                <option value="Padrão">Padrão</option>
+                <option value="Luxo">Luxo</option>
+                <option value="Master">Master</option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <a
+                href="{% url 'listar_apartamentos' %}"
+                class="btn btn-secondary"
+            >
+                Voltar
+            </a>
+
+            <button type="submit" class="btn btn-primary">
+                Cadastrar apartamento
+            </button>
+        </div>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

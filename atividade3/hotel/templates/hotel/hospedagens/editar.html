@@ -1,47 +1,91 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Hospedagem</title>
-</head>
-<body>
-    <h1>Editar Hospedagem</h1>
+
+{% extends 'base.html' %}
+
+{% block title %}Editar Hospedagem | HotelSystem{% endblock %}
+
+{% block page_heading %}
+<h1>Hospedagens</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div>
+    <h2>Editar Hospedagem</h2>
+    <p class="page-description">
+      Altere os dados da hospedagem cadastrada.
+    </p>
+  </div>
+</div>
+
+<div class="content-card form-card">
+  <div class="card-header">
+    <div>
+      <h3>Dados da hospedagem</h3>
+      <p>Atualize as informações abaixo.</p>
+    </div>
+  </div>
+
+  <form method="POST" class="person-form">
+    {% csrf_token %}
 
     {% if erro %}
-        <p>{{ erro }}</p>
+      <p style="color: red; margin-bottom: 20px;">{{ erro }}</p>
     {% endif %}
 
-    <form method="POST">
-        {% csrf_token %}
+    <div class="form-group">
+      <label for="pessoa">Pessoa:</label>
 
-        <label for="pessoa">Pessoa:</label>
-        <select name="pessoa" id="pessoa" required>
-            {% for pessoa in pessoas %}
-                <option value="{{ pessoa.id }}"
-                    {% if pessoa.id == hospedagem.pessoa_id %}selected{% endif %}>
-                    {{ pessoa.nome }}
-                </option>
-            {% endfor %}
-        </select>
+      <select name="pessoa" id="pessoa" required>
+        {% for pessoa in pessoas %}
+          <option
+            value="{{ pessoa.id }}"
+            {% if pessoa.id == hospedagem.pessoa_id %}selected{% endif %}
+          >
+            {{ pessoa.nome }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
 
-        <br><br>
+    <div class="form-group">
+      <label for="apartamento">Apartamento:</label>
 
-        <label for="apartamento">Apartamento:</label>
-        <select name="apartamento" id="apartamento" required>
-            {% for apartamento in apartamentos %}
-                <option value="{{ apartamento.id }}"
-                    {% if apartamento.id == hospedagem.apartamento_id %}selected{% endif %}>
-                    {{ apartamento.numeracao }} - {{ apartamento.tipo }}
-                </option>
-            {% endfor %}
-        </select>
+      <select name="apartamento" id="apartamento" required>
+        {% for apartamento in apartamentos %}
+          <option
+            value="{{ apartamento.id }}"
+            {% if apartamento.id == hospedagem.apartamento_id %}selected{% endif %}
+          >
+            {{ apartamento.numeracao }} - {{ apartamento.tipo }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
 
-        <br><br>
+    <div class="form-group">
+      <label>Data de início:</label>
+      <input
+        type="text"
+        value="{{ hospedagem.data_inicio|date:'d/m/Y' }}"
+        disabled
+      >
+    </div>
 
-        <p>Data de início: {{ hospedagem.data_inicio|date:"d/m/Y" }}</p>
+    <div class="form-actions">
+      <a
+        href="{% url 'listar_hospedagens' %}"
+        class="btn btn-secondary"
+      >
+        Cancelar
+      </a>
 
-        <button type="submit">Salvar alterações</button>
-        <a href="{% url 'listar_hospedagens' %}">Cancelar</a>
-    </form>
-</body>
-</html>
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-check-lg"></i>
+        Salvar alterações
+      </button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

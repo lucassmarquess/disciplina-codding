@@ -1,72 +1,126 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Confirmar Encerramento</title>
-</head>
-<body>
-    <h1>Confirmar encerramento da hospedagem</h1>
 
-    <p>
-        Tem certeza de que deseja encerrar esta hospedagem?
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Encerramento | HotelSystem{% endblock %}
+
+{% block page_heading %}
+<h1>Hospedagens</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div>
+    <h2>Confirmar encerramento</h2>
+    <p class="page-description">
+      Confira os dados da hospedagem e o resumo do pagamento.
+    </p>
+  </div>
+</div>
+
+<div class="content-card form-card">
+  <div class="card-header">
+    <div>
+      <h3>Encerrar hospedagem</h3>
+      <p>Confira as informações antes de confirmar.</p>
+    </div>
+  </div>
+
+  <div class="person-form">
+
+    <p style="margin-bottom: 24px;">
+      Tem certeza de que deseja encerrar esta hospedagem?
     </p>
 
-    <h2>Dados da hospedagem</h2>
+    <h3 style="margin-bottom: 20px;">Dados da hospedagem</h3>
 
-    <p>
-        <strong>Hóspede:</strong>
-        {{ hospedagem.pessoa.nome }}
-    </p>
+    <div class="form-group">
+      <label>Hóspede:</label>
+      <input type="text" value="{{ hospedagem.pessoa.nome }}" disabled>
+    </div>
 
-    <p>
-        <strong>Apartamento:</strong>
-        {{ hospedagem.apartamento.numeracao }}
-    </p>
+    <div class="form-group">
+      <label>Apartamento:</label>
+      <input
+        type="text"
+        value="{{ hospedagem.apartamento.numeracao }}"
+        disabled
+      >
+    </div>
 
-    <p>
-        <strong>Tipo:</strong>
-        {{ hospedagem.apartamento.tipo }}
-    </p>
+    <div class="form-group">
+      <label>Tipo:</label>
+      <input
+        type="text"
+        value="{{ hospedagem.apartamento.tipo }}"
+        disabled
+      >
+    </div>
 
-    <p>
-        <strong>Data de início:</strong>
-        {{ hospedagem.data_inicio|date:"d/m/Y" }}
-    </p>
+    <div class="form-group">
+      <label>Data de início:</label>
+      <input
+        type="text"
+        value="{{ hospedagem.data_inicio|date:'d/m/Y' }}"
+        disabled
+      >
+    </div>
 
-    <p>
-        <strong>Data de encerramento:</strong>
-        {{ data_encerramento|date:"d/m/Y" }}
-    </p>
+    <div class="form-group">
+      <label>Data de encerramento:</label>
+      <input
+        type="text"
+        value="{{ data_encerramento|date:'d/m/Y' }}"
+        disabled
+      >
+    </div>
 
-    <hr>
+    <hr style="margin: 24px 0; border: 0; border-top: 1px solid var(--color-border);">
 
-    <h2>Resumo do pagamento</h2>
+    <h3 style="margin-bottom: 20px;">Resumo do pagamento</h3>
 
-    <p>
-        <strong>Valor da diária:</strong>
-        R$ {{ hospedagem.apartamento.preco_diaria|floatformat:2 }}
-    </p>
+    <div class="form-group">
+      <label>Valor da diária:</label>
+      <input
+        type="text"
+        value="R$ {{ hospedagem.apartamento.preco_diaria|floatformat:2 }}"
+        disabled
+      >
+    </div>
 
-    <p>
-        <strong>Quantidade de diárias:</strong>
-        {{ diarias }}
-    </p>
+    <div class="form-group">
+      <label>Quantidade de diárias:</label>
+      <input type="text" value="{{ diarias }}" disabled>
+    </div>
 
-    <p>
-        <strong>Total a pagar:</strong>
-        R$ {{ total|floatformat:2 }}
-    </p>
+    <div class="form-group">
+      <label>Total a pagar:</label>
+      <input
+        type="text"
+        value="R$ {{ total|floatformat:2 }}"
+        disabled
+      >
+    </div>
 
     <form method="POST">
-        {% csrf_token %}
+      {% csrf_token %}
 
-        <button type="submit">
-            Confirmar encerramento
-        </button>
-
-        <a href="{% url 'listar_hospedagens' %}">
-            Cancelar
+      <div class="form-actions">
+        <a
+          href="{% url 'listar_hospedagens' %}"
+          class="btn btn-secondary"
+        >
+          Cancelar
         </a>
+
+        <button type="submit" class="btn btn-danger">
+          <i class="bi bi-check-circle"></i>
+          Confirmar encerramento
+        </button>
+      </div>
     </form>
-</body>
-</html>
+
+  </div>
+</div>
+
+{% endblock %}

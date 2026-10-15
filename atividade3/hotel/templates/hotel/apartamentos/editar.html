@@ -1,28 +1,80 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar</title>
-</head>
-<body>
-    <h1>Editor de Apartamento</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="numeracao">Numeração:</label><br>
-        <input type="text" name="numeracao" id="numeracao" value="{{apartamento.numeracao}}"><br>
+{% extends 'base.html' %}
 
-        <label for="preco_diaria">Preco da Diaria:</label><br>
-        <input type="text" name="preco_diaria" id="preco_diaria" value="{{apartamento.preco_diaria}}"><br>
-        
-        <label for="tipo">Tipo:</label>
-        <select name="tipo" id="tipo">
-            <option value="Padrão" {% if apartamento.tipo == 'Padrão' %}selected{% endif %}>Padrão</option>
-            <option value="Luxo" {% if apartamento.tipo == 'Luxo' %}selected{% endif %}>Luxo</option>
-            <option value="Master" {% if apartamento.tipo == 'Master' %}selected{% endif %}>Master</option>
-        </select><br>
-        <button type="submit">Salvar</button>
-        <a href="{% url 'listar_apartamentos' %}">Voltar</a>
+{% block title %}Editar Apartamento{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2>Editar Apartamento</h2>
+        <p class="page-description">
+            Atualize os dados do apartamento selecionado.
+        </p>
+    </div>
+</div>
+
+<div class="content-card form-card">
+    <div class="card-header">
+        <h3>Dados do apartamento</h3>
+        <p>Altere as informações necessárias e salve as modificações.</p>
+    </div>
+
+    <form method="POST" class="person-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="numeracao">Numeração:</label>
+            <input
+                type="text"
+                name="numeracao"
+                id="numeracao"
+                value="{{ apartamento.numeracao }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="preco_diaria">Preço da diária (R$):</label>
+            <input
+                type="number"
+                name="preco_diaria"
+                id="preco_diaria"
+                value="{{ apartamento.preco_diaria }}"
+                step="0.01"
+                min="0"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="tipo">Tipo:</label>
+
+            <select name="tipo" id="tipo" required>
+                <option value="Padrão" {% if apartamento.tipo == 'Padrão' %}selected{% endif %}>
+                    Padrão
+                </option>
+
+                <option value="Luxo" {% if apartamento.tipo == 'Luxo' %}selected{% endif %}>
+                    Luxo
+                </option>
+
+                <option value="Master" {% if apartamento.tipo == 'Master' %}selected{% endif %}>
+                    Master
+                </option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <a
+                href="{% url 'listar_apartamentos' %}"
+                class="btn btn-secondary"
+            >
+                Voltar
+            </a>
+
+            <button type="submit" class="btn btn-primary">
+                Salvar alterações
+            </button>
+        </div>
     </form>
-</body>
-</html>
+</div>
+{% endblock %}

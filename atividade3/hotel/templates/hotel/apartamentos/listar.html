@@ -1,29 +1,91 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apartamentos</title>
-</head>
-<body>
-    <h1>Lista de Apartamentos</h1>
-    <a href="{% url 'cadastrar_apartamento' %}">Cadastrar</a>
-    {% for apartamento in apartamentos %}
-        <p>
-            {{ apartamento.id }} -
-            {{ apartamento.numeracao }} -
-            {{ apartamento.preco_diaria }} -
-            {{ apartamento.tipo }} -
-            {{ apartamento.status }} -
-            {{ apartamento.ativo }} 
-            <a href="{% url 'editar_apartamento' apartamento.id %}">Editar</a>
-            <form method="POST" action="{% url 'excluir_apartamento' apartamento.id %}" onsubmit="return confirm('Tem certeza que deseja inativar esse apartamento?')" >
+
+{% extends 'base.html' %}
+
+{% block title %}Apartamentos{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Lista de Apartamentos</h2>
+    <p class="page-description">Gerencie os apartamentos do hotel.</p>
+  </div>
+
+  <a href="{% url 'cadastrar_apartamento' %}" class="btn btn-primary">
+    + Cadastrar apartamento
+  </a>
+</div>
+
+<div class="content-card">
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Numeração</th>
+          <th>Preço da diária</th>
+          <th>Tipo</th>
+          <th>Status</th>
+          <th>Ativo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for apartamento in apartamentos %}
+        <tr>
+          <td>{{ apartamento.id }}</td>
+          <td>{{ apartamento.numeracao }}</td>
+          <td>R$ {{ apartamento.preco_diaria }}</td>
+          <td>{{ apartamento.tipo }}</td>
+
+          <td>
+            {% if apartamento.status %}
+              Ocupado
+            {% else %}
+              Desocupado
+            {% endif %}
+          </td>
+
+          <td>
+            {% if apartamento.ativo %}
+              Ativo
+            {% else %}
+              Inativo
+            {% endif %}
+          </td>
+
+          <td>
+            <div class="table-actions">
+              <a
+                href="{% url 'editar_apartamento' apartamento.id %}"
+                class="btn btn-secondary btn-sm"
+              >
+                Editar
+              </a>
+
+              <form
+                method="POST"
+                action="{% url 'excluir_apartamento' apartamento.id %}"
+                onsubmit="return confirm('Tem certeza que deseja inativar esse apartamento?');"
+              >
                 {% csrf_token %}
-                <button type="submit">Excluir</button>
-            </form>
-        </p>
-    {% empty %}
-        <p>Nenhum apartamento cadastrado</p>
-    {% endfor %}
-</body>
-</html>
+                <button type="submit" class="btn btn-danger btn-sm">
+                  Excluir
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+          <td colspan="7" class="empty-state">
+            Nenhum apartamento cadastrado.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

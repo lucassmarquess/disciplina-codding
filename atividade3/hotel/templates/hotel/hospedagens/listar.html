@@ -1,33 +1,102 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar</title>
-</head>
-<body>
-    <h1>Lista de Hospedagens</h1>
-    <a href="{% url 'cadastrar_hospedagem' %}">Cadastrar</a>
-    {% for hospedagem in hospedagens %}
-        <p>
-            {{ hospedagem.id }} -
-            {{ hospedagem.numeracao }} -
-            {{ hospedagem.pessoa_id }} -
-            {{ hospedagem.apartamento_id }} -
-            {{ hospedagem.data_inicio }} -
-            {{ hospedagem.data_final }} -
-            {{ hospedagem.ativo }}
-            <a href="{% url 'editar_hospedagem' hospedagem.id %}">Editar</a>
+
+{% extends 'base.html' %}
+
+{% block title %}Hospedagens | HotelSystem{% endblock %}
+
+{% block page_heading %}
+<h1>Hospedagens</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div>
+    <h2>Lista de Hospedagens</h2>
+    <p class="page-description">
+      Acompanhe e gerencie as hospedagens do hotel.
+    </p>
+  </div>
+
+  <a href="{% url 'cadastrar_hospedagem' %}" class="btn btn-primary">
+    <i class="bi bi-plus-lg"></i>
+    Cadastrar hospedagem
+  </a>
+</div>
+
+<div class="content-card">
+  <div class="card-header">
+    <div>
+      <h3>Hospedagens cadastradas</h3>
+      <p>Consulte e gerencie os registros.</p>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Numeração</th>
+          <th>Pessoa</th>
+          <th>Apartamento</th>
+          <th>Data de início</th>
+          <th>Data final</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for hospedagem in hospedagens %}
+        <tr>
+          <td>{{ hospedagem.id }}</td>
+          <td>{{ hospedagem.numeracao }}</td>
+          <td>{{ hospedagem.pessoa_id }}</td>
+          <td>{{ hospedagem.apartamento_id }}</td>
+          <td>{{ hospedagem.data_inicio }}</td>
+          <td>{{ hospedagem.data_final|default:"—" }}</td>
+
+          <td>
             {% if hospedagem.ativo %}
-                <a href="{% url 'encerrar_hospedagem' hospedagem.id %}">
-                    Encerrar hospedagem
-                </a>
+              <span class="status-badge status-active">Ativa</span>
             {% else %}
-                <span>Hospedagem encerrada</span>
+              <span class="status-badge status-inactive">Encerrada</span>
             {% endif %}
-        </p>
-    {% empty %}
-        <p>Nenhuma hospegadem cadastrada</p>
-    {% endfor %}
-</body>
-</html>
+          </td>
+
+          <td>
+            <div class="table-actions">
+              <a
+                href="{% url 'editar_hospedagem' hospedagem.id %}"
+                class="btn btn-secondary btn-sm"
+              >
+                <i class="bi bi-pencil"></i>
+                Editar
+              </a>
+
+              {% if hospedagem.ativo %}
+                <a
+                  href="{% url 'encerrar_hospedagem' hospedagem.id %}"
+                  class="btn btn-danger btn-sm"
+                >
+                  <i class="bi bi-check-circle"></i>
+                  Encerrar
+                </a>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+          <td colspan="8" class="empty-state">
+            Nenhuma hospedagem cadastrada.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
